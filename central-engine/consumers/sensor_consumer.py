@@ -37,9 +37,10 @@ async def consume_sensor_data():
 
     except Exception as e:
         print("the error is " , e)
-    # finally:
-    #     print("stopping the kafka consumer ....")
-    #     await consumer.stop()
+        
+    finally:
+        print("stopping the kafka consumer ....")
+        await consumer.stop()
 
 
 def json_serializer(obj):

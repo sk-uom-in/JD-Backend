@@ -6,7 +6,6 @@ from ..models.sensorModel import SensorData
 from sqlalchemy.ext.asyncio import AsyncSession
 
 async def save_sensor_data(db: AsyncSession, sensor_data: dict):
-    print("hello")
     """Save incoming sensor data to the database"""
     try:
         # Create an instance of the SensorDataModel

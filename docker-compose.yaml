@@ -31,5 +31,20 @@ services:
     volumes:
       - timescale_data:/var/lib/postgresql/data
 
+  mysql:
+    image: mysql:latest
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: atkins
+      MYSQL_PASSWORD: hackafuture
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
 volumes:
   timescale_data:
+  mysql_data:
