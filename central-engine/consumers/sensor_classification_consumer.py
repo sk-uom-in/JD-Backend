@@ -8,6 +8,7 @@ from typing import Annotated
 # from ..tDatabase import SessionLocal
 from datetime import datetime
 from ..websockets import ws_manager
+import random
 
 
 # SessionDep = Annotated[AsyncSession, Depends(get_db)]
@@ -31,10 +32,12 @@ async def sensor_classification_data():
             sensor_data = msg.value
             print(f"Received sensor data 2")
 
+            classList = ["NORMAL" , "BROKEN" , "RECOVERING"]
+
             # Get a database session and save the data
             response_data = {
                 "time": sensor_data["timestamp"],
-                "classification": {"classification_result" : "Positive"}
+                "classification": classList[random.randint(0,2)]
             }
             await ws_manager.broadcast(response_data)
 

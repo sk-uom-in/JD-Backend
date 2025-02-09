@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Annotated
 from datetime import datetime
 from ..websockets import ws_accident_data_manager
+from ..utils.accident_predictor import accident_predictor_classifier
 
 
 # SessionDep = Annotated[AsyncSession, Depends(get_db)]
@@ -30,10 +31,13 @@ async def accident_classification_data():
             sensor_data = msg.value
             print(f"Received accident data 2")
 
+
+            prediction = accident_predictor_classifier(sensor_data)
+
             # Get a database session and save the data
             response_data = {
                 "TIME": sensor_data["TIME"],
-                "classification": {"classification_result" : "Positive"}
+                "classification": prediction
             }
             await ws_accident_data_manager.broadcast(response_data)
 
