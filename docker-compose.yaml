@@ -18,18 +18,18 @@ services:
     ports:
       - "9092:9092"
 
-  timescaledb:
-    image: timescale/timescaledb:latest-pg16
-    container_name: timescaledb
-    restart: always
-    environment:
-      POSTGRES_USER: atkins
-      POSTGRES_PASSWORD: hackafuture
-      POSTGRES_DB: timeseries
-    ports:
-      - "5432:5432"
-    volumes:
-      - timescale_data:/var/lib/postgresql/data
+  # timescaledb:
+  #   image: timescale/timescaledb:latest-pg16
+  #   container_name: timescaledb
+  #   restart: always
+  #   environment:
+  #     POSTGRES_USER: atkins
+  #     POSTGRES_PASSWORD: hackafuture
+  #     POSTGRES_DB: timeseries
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - timescale_data:/var/lib/postgresql/data
 
   mysql:
     image: mysql:latest
@@ -46,5 +46,4 @@ services:
       - mysql_data:/var/lib/mysql
 
 volumes:
-  timescale_data:
   mysql_data:

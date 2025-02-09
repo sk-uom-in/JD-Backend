@@ -2,14 +2,14 @@ import asyncio
 import json
 from fastapi import FastAPI, Depends
 from contextlib import asynccontextmanager
-from .tDatabase import Base, engine, get_db
+# from .tDatabase import Base, engine, get_db
 from .database import Base2, engine2, get_db2
 from .producer import kafka_producer
 from .routers import sensor_routes
 from .routers import accident_routes
 from .routers import chatbot_routes
 from sqlalchemy import text
-from .consumers.sensor_consumer import consume_sensor_data
+# from .consumers.sensor_consumer import consume_sensor_data
 from .consumers.sensor_classification_consumer import sensor_classification_data
 from .consumers.accident_consumer import consume_accident_data
 from .consumers.accident_classification_consume import accident_classification_data
@@ -24,7 +24,7 @@ async def lifespan(app: FastAPI):
     global consumer_tasks
 
     # strating the timeseries database
-    await init_db()
+    # await init_db()
 
     # starting the mysql server
     await init_db_2()
@@ -35,7 +35,7 @@ async def lifespan(app: FastAPI):
 
     # Start Kafka consumers
     consumer_tasks = [
-        asyncio.create_task(consume_sensor_data()),
+        # asyncio.create_task(consume_sensor_data()),
         asyncio.create_task(consume_accident_data()),
         asyncio.create_task(sensor_classification_data()),
         asyncio.create_task(accident_classification_data())
@@ -58,9 +58,9 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 
-async def init_db():
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+# async def init_db():
+#     async with engine.begin() as conn:
+#         await conn.run_sync(Base.metadata.create_all)
 
 
 async def init_db_2():
@@ -79,13 +79,13 @@ app.include_router(chatbot_routes.chatbotRouter)
 def read_root():
     return {"Hello": "World"}
 
-@app.get("/test-db/")
-async def test_db_connection(db: AsyncSession = Depends(get_db)):  # ✅ Async function
-    try:
-        result = await db.execute(text("SELECT 1"))  # ✅ Await the DB query
-        return {"message": "Database connected successfully"}
-    except Exception as e:
-        return {"error": str(e)}
+# @app.get("/test-db/")
+# async def test_db_connection(db: AsyncSession = Depends(get_db)):  # ✅ Async function
+#     try:
+#         result = await db.execute(text("SELECT 1"))  # ✅ Await the DB query
+#         return {"message": "Database connected successfully"}
+#     except Exception as e:
+#         return {"error": str(e)}
 
 @app.get("/test-db-2/")
 async def test_db_connectio_2(db: AsyncSession = Depends(get_db2)):  # ✅ Async function

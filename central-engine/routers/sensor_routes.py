@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from ..models.sensorModel import SensorData , SensorMeasurementsCreate
+from ..models.sensorModel import SensorMeasurementsCreate
 from ..producer import kafka_producer
 from ..config import KAFKA_TOPICS
 

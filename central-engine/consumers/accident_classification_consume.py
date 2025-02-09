@@ -5,7 +5,6 @@ from ..config import KAFKA_BOOTSTRAP_SERVERS, KAFKA_TOPICS, KAFKA_GROUPS
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Annotated
-from ..tDatabase import SessionLocal
 from datetime import datetime
 from ..websockets import ws_accident_data_manager
 
