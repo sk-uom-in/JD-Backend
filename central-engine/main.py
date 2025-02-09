@@ -3,6 +3,7 @@ import json
 from fastapi import FastAPI, Depends
 from contextlib import asynccontextmanager
 # from .tDatabase import Base, engine, get_db
+from fastapi.middleware.cors import CORSMiddleware
 from .database import Base2, engine2, get_db2
 from .producer import kafka_producer
 from .routers import sensor_routes
@@ -61,7 +62,13 @@ app = FastAPI(lifespan=lifespan)
 # async def init_db():
 #     async with engine.begin() as conn:
 #         await conn.run_sync(Base.metadata.create_all)
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['http://localhost:3000'],
+    allow_credentials=True,
+    allow_methods=['*'],
+    allow_headers=['*'],
+)
 
 async def init_db_2():
     async with engine2.begin() as conn2:
