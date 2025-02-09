@@ -7,6 +7,7 @@ from .database import Base2, engine2, get_db2
 from .producer import kafka_producer
 from .routers import sensor_routes
 from .routers import accident_routes
+from .routers import chatbot_routes
 from sqlalchemy import text
 from .consumers.sensor_consumer import consume_sensor_data
 from .consumers.sensor_classification_consumer import sensor_classification_data
@@ -72,6 +73,7 @@ async def init_db_2():
 app.include_router(sensor_routes.sensor_router)
 app.include_router(accident_routes.accident_router)
 app.include_router(websocketRouter)
+app.include_router(chatbot_routes.chatbotRouter)
 
 @app.get("/")
 def read_root():

@@ -1,6 +1,10 @@
 jdb/
+jdb2/
 
-data-simulator/
+
+pump_sensor.csv
+
+
 .env
 **/__pycache__
 __pycache__/*
