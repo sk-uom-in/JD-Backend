@@ -10,4 +10,5 @@ KAFKA_TOPICS = {
 
 KAFKA_GROUPS = {
     "atkins": "atkins_group",
+    "atkins-2": "atkins_group_2"
 }

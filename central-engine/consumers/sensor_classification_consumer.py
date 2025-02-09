@@ -6,17 +6,17 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Annotated
 from ..tDatabase import SessionLocal
-from ..services.sensor_data_service import save_sensor_data
 from datetime import datetime
+from ..websockets import ws_manager
 
 
 # SessionDep = Annotated[AsyncSession, Depends(get_db)]
 
-async def consume_sensor_data():
+async def sensor_classification_data():
     consumer = AIOKafkaConsumer(
         KAFKA_TOPICS["sensor_data"],
         bootstrap_servers=KAFKA_BOOTSTRAP_SERVERS,
-        group_id=KAFKA_GROUPS["atkins"],
+        group_id=KAFKA_GROUPS["atkins-2"],
         auto_offset_reset='latest',
         value_deserializer=lambda v: json.loads(v.decode('utf-8')),
         enable_auto_commit=True
@@ -29,11 +29,14 @@ async def consume_sensor_data():
     try:
         async for msg in consumer:
             sensor_data = msg.value
-            print(f"Received sensor data 1: {sensor_data}")
+            print(f"Received sensor data 2: {sensor_data}")
 
             # Get a database session and save the data
-            async with SessionLocal() as db:  # Creates an async session
-                await save_sensor_data(db, sensor_data)
+            response_data = {
+                "time": sensor_data["timestamp"],
+                "classification": {"classification_result" : "Positive"}
+            }
+            await ws_manager.broadcast(response_data)
 
     except Exception as e:
         print("the error is " , e)

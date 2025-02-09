@@ -9,8 +9,10 @@ from .routers import sensor_routes
 from .routers import accident_routes
 from sqlalchemy import text
 from .consumers.sensor_consumer import consume_sensor_data
+from .consumers.sensor_classification_consumer import sensor_classification_data
 from .consumers.accident_consumer import consume_accident_data
 from sqlalchemy.ext.asyncio import AsyncSession
+from .websockets import websocketRouter
 from sqlalchemy.orm import Session
 from .config import KAFKA_BOOTSTRAP_SERVERS  # Import Kafka settings
 
@@ -32,7 +34,8 @@ async def lifespan(app: FastAPI):
     # Start Kafka consumers
     consumer_tasks = [
         asyncio.create_task(consume_sensor_data()),
-        asyncio.create_task(consume_accident_data())
+        asyncio.create_task(consume_accident_data()),
+        asyncio.create_task(sensor_classification_data())
     ]
     print("Kafka Consumers Started.")
 
@@ -66,6 +69,7 @@ async def init_db_2():
 # Include API routes
 app.include_router(sensor_routes.sensor_router)
 app.include_router(accident_routes.accident_router)
+app.include_router(websocketRouter)
 
 @app.get("/")
 def read_root():
