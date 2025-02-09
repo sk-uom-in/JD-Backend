@@ -11,6 +11,7 @@ from sqlalchemy import text
 from .consumers.sensor_consumer import consume_sensor_data
 from .consumers.sensor_classification_consumer import sensor_classification_data
 from .consumers.accident_consumer import consume_accident_data
+from .consumers.accident_classification_consume import accident_classification_data
 from sqlalchemy.ext.asyncio import AsyncSession
 from .websockets import websocketRouter
 from sqlalchemy.orm import Session
@@ -35,7 +36,8 @@ async def lifespan(app: FastAPI):
     consumer_tasks = [
         asyncio.create_task(consume_sensor_data()),
         asyncio.create_task(consume_accident_data()),
-        asyncio.create_task(sensor_classification_data())
+        asyncio.create_task(sensor_classification_data()),
+        asyncio.create_task(accident_classification_data())
     ]
     print("Kafka Consumers Started.")
 

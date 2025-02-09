@@ -29,7 +29,7 @@ async def sensor_classification_data():
     try:
         async for msg in consumer:
             sensor_data = msg.value
-            print(f"Received sensor data 2: {sensor_data}")
+            print(f"Received sensor data 2")
 
             # Get a database session and save the data
             response_data = {

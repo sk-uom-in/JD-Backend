@@ -29,7 +29,7 @@ async def consume_accident_data():
     try:
         async for msg in consumer:
             accident_data = msg.value
-            print(f"Received sensor data: {accident_data}")
+            print(f"Received accident data 1")
 
             # Get a database session and save the data
             async with AsyncSessionLocal() as db:  # Creates an async session

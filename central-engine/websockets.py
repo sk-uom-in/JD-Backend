@@ -24,6 +24,7 @@ class WebSocketManager:
 
 # Global WebSocket Manager
 ws_manager = WebSocketManager()
+ws_accident_data_manager = WebSocketManager()
 
 @websocketRouter.websocket("/ws/sensor_data_predictions")
 async def websocket_endpoint(websocket: WebSocket):
@@ -34,3 +35,13 @@ async def websocket_endpoint(websocket: WebSocket):
             await websocket.receive_text()  # Keep connection alive
     except WebSocketDisconnect:
         ws_manager.disconnect(websocket)
+
+
+@websocketRouter.websocket("/ws/accident_data_predictions")
+async def accident_data_websocket_endpoint(websocket: WebSocket):
+    await ws_accident_data_manager.connect(websocket)
+    try:
+        while True:
+            await websocket.receive_text()
+    except WebSocketDisconnect:
+        ws_accident_data_manager.disconnect(websocket)
